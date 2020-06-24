@@ -1,0 +1,43 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
+    }
+}
+
+plugins {
+    id("io.spinnaker.plugin.bundler").version("$spinnakerGradleVersion")
+    id("com.palantir.git-version").version("0.12.2")
+    id("org.jetbrains.kotlin.jvm").version("$kotlinVersion")
+    id("org.jetbrains.kotlin.kapt").version("$kotlinVersion")
+}
+
+spinnakerBundle {
+    pluginId = "Armory.CRDCheck"
+    description = "A plugin to validate a manifest is stable in kubernetes"
+    provider = "TODO"
+    version = rootProject.version
+}
+
+repositories {
+    mavenCentral()
+}
+
+version = normalizedVersion()
+
+subprojects {
+    group = "io.armory.plugin.kubernetes"
+    version = rootProject.version
+}
+
+String normalizedVersion() {
+    String fullVersion = gitVersion()
+    String normalized = fullVersion.split("-").first()
+    if (fullVersion.contains("dirty")) {
+        return "$normalized-SNAPSHOT"
+    } else {
+        return normalized
+    }
+}
