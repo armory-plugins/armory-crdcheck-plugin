@@ -2,14 +2,14 @@ package io.armory.plugin.kubernetes
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.convertValue
-import com.netflix.spinnaker.clouddriver.kubernetes.caching.agent.CustomKubernetesCachingAgentFactory
-import com.netflix.spinnaker.clouddriver.kubernetes.caching.agent.KubernetesV2CachingAgentFactory
 import com.netflix.spinnaker.clouddriver.kubernetes.description.SpinnakerKind
-import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.KubernetesApiGroup
-import com.netflix.spinnaker.clouddriver.kubernetes.op.handler.KubernetesHandler
-import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.KubernetesKind
-import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.KubernetesManifest
-import com.netflix.spinnaker.clouddriver.kubernetes.model.Manifest
+import com.netflix.spinnaker.clouddriver.kubernetes.v2.caching.agent.CustomKubernetesCachingAgentFactory
+import com.netflix.spinnaker.clouddriver.kubernetes.v2.caching.agent.KubernetesV2CachingAgentFactory
+import com.netflix.spinnaker.clouddriver.kubernetes.v2.description.manifest.KubernetesApiGroup
+import com.netflix.spinnaker.clouddriver.kubernetes.v2.description.manifest.KubernetesKind
+import com.netflix.spinnaker.clouddriver.kubernetes.v2.description.manifest.KubernetesManifest
+import com.netflix.spinnaker.clouddriver.kubernetes.v2.model.Manifest
+import com.netflix.spinnaker.clouddriver.kubernetes.v2.op.handler.KubernetesHandler
 import org.slf4j.LoggerFactory
 
 class OperatorCRDHandler : KubernetesHandler() {
