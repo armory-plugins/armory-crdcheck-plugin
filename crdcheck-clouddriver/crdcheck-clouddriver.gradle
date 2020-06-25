@@ -16,9 +16,6 @@ repositories {
     mavenCentral()
     jcenter()
     maven { url "http://dl.bintray.com/spinnaker/spinnaker/" }
-    // TODO: remove once we aren't using the Google product release version
-    // for Clouddriver.
-    maven { url "https://spinnaker-releases.bintray.com/jars" }
 }
 
 spinnakerPlugin {
