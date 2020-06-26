@@ -22,9 +22,9 @@ class OperatorCRDHandler : KubernetesHandler() {
     }
 
     override fun status(manifest: KubernetesManifest?): Manifest.Status {
-        logger.info("manifest is " + manifest.toString())
         return manifest.status()?.let {
-            if (it.status == "OK") {
+            val servicesLoading = it.services.filter { elem -> elem.readyReplicas != elem.replicas }
+            if (it.status == "OK" && servicesLoading.isEmpty()) {
                 Manifest.Status().apply {
                     stable("This manifest is stable!")
                 }
