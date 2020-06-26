@@ -8,6 +8,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry
 class CRDCheckPlugin(wrapper: PluginWrapper) : PrivilegedSpringPlugin(wrapper) {
 
     override fun registerBeanDefinitions(registry: BeanDefinitionRegistry) {
+        registerBean(primaryBeanDefinitionFor(PluginConfig::class.java), registry)
         registerBean(primaryBeanDefinitionFor(OperatorCRDHandler::class.java), registry)
     }
 

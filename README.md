@@ -16,6 +16,9 @@ spinnaker:
     plugins:
       Armory.CRDCheck:
         enabled: true
+        config:
+           kind: <Kubernetes kind>
+           apiGroup: <Kubernetes api group.
 ```
 
 Or use the [examplePluginRepository](https://github.com/spinnaker-plugin-examples/examplePluginRepository) to avoid copying the plugin `.zip` artifact.

@@ -12,7 +12,7 @@ import com.netflix.spinnaker.clouddriver.kubernetes.v2.model.Manifest
 import com.netflix.spinnaker.clouddriver.kubernetes.v2.op.handler.KubernetesHandler
 import org.slf4j.LoggerFactory
 
-class OperatorCRDHandler : KubernetesHandler() {
+class OperatorCRDHandler(private val config: PluginConfig): KubernetesHandler() {
 
     private val logger = LoggerFactory.getLogger(OperatorCRDHandler::class.java)
     private val mapper = jacksonObjectMapper()
@@ -37,7 +37,7 @@ class OperatorCRDHandler : KubernetesHandler() {
     }
 
     override fun kind(): KubernetesKind {
-        return KubernetesKind.from("SpinnakerService", KubernetesApiGroup.fromString("spinnaker.io"))
+        return KubernetesKind.from(config.kind, KubernetesApiGroup.fromString(config.apiGroup))
     }
 
     override fun versioned(): Boolean {

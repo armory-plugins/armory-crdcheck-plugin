@@ -112,7 +112,7 @@ class OperatorCRDHandlerTest: JUnit5Minutests {
     }
 
     private class Fixture {
-        val subject = OperatorCRDHandler()
+        val subject = OperatorCRDHandler(PluginConfig("SpinnakerService", "spinnaker.io"))
         val creds: KubernetesNamedAccountCredentials<KubernetesV2Credentials> = mockk(relaxed = true)
         val mapper: ObjectMapper = mockk(relaxed = true)
         val registry: Registry = mockk(relaxed = true)
