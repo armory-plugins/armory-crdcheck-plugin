@@ -67,12 +67,17 @@ class OperatorCRDHandler : KubernetesHandler() {
     private data class OperatorCRDStatus(
             val accountCount: Int,
             val apiUrl: String,
-            val lastDeployed: LastDeployed,
+            val lastDeployed: Config,
             val serviceCount: Int,
             val services: List<Service>,
             val status: String,
             val uiUrl: String,
             val version: String
+    )
+
+    private data class Config(
+            val config: LastDeployed,
+            val kustomize: LastDeployed
     )
 
     private data class LastDeployed(
