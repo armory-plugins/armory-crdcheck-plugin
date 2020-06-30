@@ -1,6 +1,7 @@
 package io.armory.plugin.kubernetes
 
 import com.netflix.spinnaker.kork.plugins.api.spring.PrivilegedSpringPlugin
+import io.armory.plugin.kubernetes.handlers.OperatorCRDHandler
 import org.slf4j.LoggerFactory
 import org.pf4j.PluginWrapper
 import org.springframework.beans.factory.support.BeanDefinitionRegistry
@@ -8,7 +9,8 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry
 class CRDCheckPlugin(wrapper: PluginWrapper) : PrivilegedSpringPlugin(wrapper) {
 
     override fun registerBeanDefinitions(registry: BeanDefinitionRegistry) {
-        registerBean(primaryBeanDefinitionFor(PluginConfig::class.java), registry)
+
+        //register handlers
         registerBean(primaryBeanDefinitionFor(OperatorCRDHandler::class.java), registry)
     }
 

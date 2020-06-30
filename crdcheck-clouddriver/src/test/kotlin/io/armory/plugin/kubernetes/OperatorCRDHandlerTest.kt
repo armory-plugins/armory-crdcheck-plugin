@@ -11,6 +11,7 @@ import com.netflix.spinnaker.clouddriver.kubernetes.v2.model.Manifest
 import com.netflix.spinnaker.clouddriver.kubernetes.v2.security.KubernetesV2Credentials
 import dev.minutest.junit.JUnit5Minutests
 import dev.minutest.rootContext
+import io.armory.plugin.kubernetes.handlers.OperatorCRDHandler
 import io.mockk.mockk
 import strikt.api.expectCatching
 import strikt.api.expectThat
@@ -112,7 +113,7 @@ class OperatorCRDHandlerTest: JUnit5Minutests {
     }
 
     private class Fixture {
-        val subject = OperatorCRDHandler(PluginConfig("SpinnakerService", "spinnaker.io"))
+        val subject = OperatorCRDHandler()
         val creds: KubernetesNamedAccountCredentials<KubernetesV2Credentials> = mockk(relaxed = true)
         val mapper: ObjectMapper = mockk(relaxed = true)
         val registry: Registry = mockk(relaxed = true)

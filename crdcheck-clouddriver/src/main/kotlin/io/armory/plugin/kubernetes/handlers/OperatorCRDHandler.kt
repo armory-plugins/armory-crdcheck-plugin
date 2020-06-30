@@ -1,4 +1,20 @@
-package io.armory.plugin.kubernetes
+/*
+ * Copyright 2020 Netflix, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package io.armory.plugin.kubernetes.handlers
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.convertValue
@@ -12,10 +28,12 @@ import com.netflix.spinnaker.clouddriver.kubernetes.v2.model.Manifest
 import com.netflix.spinnaker.clouddriver.kubernetes.v2.op.handler.KubernetesHandler
 import org.slf4j.LoggerFactory
 
-class OperatorCRDHandler(private val config: PluginConfig): KubernetesHandler() {
+class OperatorCRDHandler(): KubernetesHandler() {
 
     private val logger = LoggerFactory.getLogger(OperatorCRDHandler::class.java)
     private val mapper = jacksonObjectMapper()
+    private val kind = "SpinnakerService"
+    private val apiGroup = "spinnaker.armory.io"
 
     init {
         logger.info("OperatorCRDHandler being initialized...")
@@ -37,7 +55,7 @@ class OperatorCRDHandler(private val config: PluginConfig): KubernetesHandler() 
     }
 
     override fun kind(): KubernetesKind {
-        return KubernetesKind.from(config.kind, KubernetesApiGroup.fromString(config.apiGroup))
+        return KubernetesKind.from(kind, KubernetesApiGroup.fromString(apiGroup))
     }
 
     override fun versioned(): Boolean {
