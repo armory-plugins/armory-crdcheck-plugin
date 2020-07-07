@@ -4,6 +4,12 @@
 
 This plugin helps to determinate if a CRD is stable or not.
 
+# Version Compatibility
+ 
+| Plugin  | Spinnaker Platform | Armory Spinnaker
+|:----------- | :--------- | :---------
+| 0.0.17  |  1.19.x & 1.20.x | 2.20.x
+
 # Usage
 
 1) Run `./gradlew releaseBundle`
@@ -16,16 +22,15 @@ spinnaker:
     plugins:
       Armory.CRDCheck:
         enabled: true
-        config:
-           kind: <Kubernetes kind>
-           apiGroup: <Kubernetes api group.
+        version: 0.0.17
+        extensions: {}
 ```
 
 Or use the [examplePluginRepository](https://github.com/spinnaker-plugin-examples/examplePluginRepository) to avoid copying the plugin `.zip` artifact.
 
 # Debugging
 
-To debug the `fetch-artifacts-orca`  server component inside a Spinnaker service (like Orca) using IntelliJ Idea follow these steps:
+To debug the `crdcheck-clouddriver`  server component inside a Spinnaker service (like Clouddriver) using IntelliJ Idea follow these steps:
 
 1) Run `./gradlew releaseBundle` in the plugin project.
 2) Copy the generated `.plugin-ref` file under `build` in the plugin project submodule for the service to the `plugins` directory under root in the Spinnaker service that will use the plugin .
