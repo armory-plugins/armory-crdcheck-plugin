@@ -1,17 +1,32 @@
-package io.armory.plugin.kubernetes
+/*
+ * Copyright 2020 Netflix, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package io.armory.plugin.kubernetes.handlers
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.netflix.spectator.api.Registry
+import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.KubernetesApiGroup
+import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.KubernetesApiVersion
+import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.KubernetesKind
+import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.KubernetesManifest
+import com.netflix.spinnaker.clouddriver.kubernetes.model.Manifest
 import com.netflix.spinnaker.clouddriver.kubernetes.security.KubernetesNamedAccountCredentials
-import com.netflix.spinnaker.clouddriver.kubernetes.v2.description.manifest.KubernetesApiGroup
-import com.netflix.spinnaker.clouddriver.kubernetes.v2.description.manifest.KubernetesApiVersion
-import com.netflix.spinnaker.clouddriver.kubernetes.v2.description.manifest.KubernetesKind
-import com.netflix.spinnaker.clouddriver.kubernetes.v2.description.manifest.KubernetesManifest
-import com.netflix.spinnaker.clouddriver.kubernetes.v2.model.Manifest
-import com.netflix.spinnaker.clouddriver.kubernetes.v2.security.KubernetesV2Credentials
+import com.netflix.spinnaker.clouddriver.kubernetes.security.KubernetesV2Credentials
 import dev.minutest.junit.JUnit5Minutests
 import dev.minutest.rootContext
-import io.armory.plugin.kubernetes.handlers.OperatorCRDHandler
 import io.mockk.mockk
 import strikt.api.expectCatching
 import strikt.api.expectThat
@@ -29,20 +44,20 @@ class OperatorCRDHandlerTest: JUnit5Minutests {
         val stableManifest = OperatorCRDStatus(
                 1,
                 "test-url",
-                Config(LastDeployed("test-hash", "test-date"),LastDeployed("test-hash", "test-date")),
+                Config(LastDeployed("test-hash", "test-date"), LastDeployed("test-hash", "test-date")),
                 1,
-                listOf(Service("test-image", "test-name", 5,5)),
+                listOf(Service("test-image", "test-name", 5, 5)),
                 "OK",
                 "test-uiurl",
                 "test-version"
-                )
+        )
 
         val unstableManifest = OperatorCRDStatus(
                 1,
                 "test-url",
-                Config(LastDeployed("test-hash", "test-date"),LastDeployed("test-hash", "test-date")),
+                Config(LastDeployed("test-hash", "test-date"), LastDeployed("test-hash", "test-date")),
                 1,
-                listOf(Service("test-image", "test-name", 5,5)),
+                listOf(Service("test-image", "test-name", 5, 5)),
                 "ERROR",
                 "test-uiurl",
                 "test-version"
@@ -51,9 +66,9 @@ class OperatorCRDHandlerTest: JUnit5Minutests {
         val unstableManifestWithoutAllReplicas = OperatorCRDStatus(
                 1,
                 "test-url",
-                Config(LastDeployed("test-hash", "test-date"),LastDeployed("test-hash", "test-date")),
+                Config(LastDeployed("test-hash", "test-date"), LastDeployed("test-hash", "test-date")),
                 1,
-                listOf(Service("test-image", "test-name", 2,5)),
+                listOf(Service("test-image", "test-name", 2, 5)),
                 "OK",
                 "test-uiurl",
                 "test-version"
