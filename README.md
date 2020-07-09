@@ -9,7 +9,7 @@ This plugin helps to determinate if a CRD is stable or not.
 | Plugin  | Spinnaker Platform | Armory Spinnaker Platform
 |:----------- | :--------- | :---------
 | 0.0.17  |  1.19.x & 1.20.x | 2.20.x
-| 1.0.0  |  1.21.x | 2.21.x
+| 0.1.0  |  1.21.x | 2.21.x
 
 # Usage
 
