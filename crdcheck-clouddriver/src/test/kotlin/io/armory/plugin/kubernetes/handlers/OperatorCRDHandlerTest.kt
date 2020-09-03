@@ -144,11 +144,6 @@ class OperatorCRDHandlerTest: JUnit5Minutests {
             val version: String
     )
 
-//    private data class Config(
-//            val config: LastDeployed,
-//            val kustomize: LastDeployed
-//    )
-
     private data class LastDeployed(
             val hash: String,
             val lastUpdatedAt: String
