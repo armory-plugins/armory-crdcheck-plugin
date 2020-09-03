@@ -43,7 +43,7 @@ class OperatorCRDHandlerTest: JUnit5Minutests {
         val stableManifest = OperatorCRDStatus(
                 1,
                 "test-url",
-                Config(LastDeployed("test-hash", "test-date"), LastDeployed("test-hash", "test-date")),
+                mapOf("config" to LastDeployed("test-hash", "test-date"), "kustomize" to LastDeployed("test-hash", "test-date")),
                 1,
                 listOf(Service("test-image", "test-name", 5, 5)),
                 "OK",
@@ -54,7 +54,7 @@ class OperatorCRDHandlerTest: JUnit5Minutests {
         val unstableManifest = OperatorCRDStatus(
                 1,
                 "test-url",
-                Config(LastDeployed("test-hash", "test-date"), LastDeployed("test-hash", "test-date")),
+                mapOf("config" to LastDeployed("test-hash", "test-date"), "kustomize" to LastDeployed("test-hash", "test-date")),
                 1,
                 listOf(Service("test-image", "test-name", 5, 5)),
                 "ERROR",
@@ -65,7 +65,7 @@ class OperatorCRDHandlerTest: JUnit5Minutests {
         val unstableManifestWithoutAllReplicas = OperatorCRDStatus(
                 1,
                 "test-url",
-                Config(LastDeployed("test-hash", "test-date"), LastDeployed("test-hash", "test-date")),
+                mapOf("config" to LastDeployed("test-hash", "test-date"), "kustomize" to LastDeployed("test-hash", "test-date")),
                 1,
                 listOf(Service("test-image", "test-name", 2, 5)),
                 "OK",
@@ -136,17 +136,12 @@ class OperatorCRDHandlerTest: JUnit5Minutests {
     private data class OperatorCRDStatus(
             val accountCount: Int,
             val apiUrl: String,
-            val lastDeployed: Config,
+            val lastDeployed: Map<String, LastDeployed>,
             val serviceCount: Int,
             val services: List<Service>,
             val status: String,
             val uiUrl: String,
             val version: String
-    )
-
-    private data class Config(
-            val config: LastDeployed,
-            val kustomize: LastDeployed
     )
 
     private data class LastDeployed(
