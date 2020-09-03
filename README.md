@@ -8,8 +8,8 @@ This plugin helps to determinate if a CRD is stable or not.
  
 | Plugin  | Spinnaker Platform | Armory Spinnaker Platform
 |:----------- | :--------- | :---------
-| 0.0.17  |  1.19.x & 1.20.x | 2.20.x
-| 0.1.2  |  1.21.x | 2.21.x
+| 0.0.19  |  1.19.x & 1.20.x | 2.20.x
+| 0.1.3  |  1.21.x | 2.21.x
 
 # Usage
 
@@ -23,7 +23,7 @@ spinnaker:
     plugins:
       Armory.CRDCheck:
         enabled: true
-        version: 0.1.2
+        version: 0.1.3
         extensions: {}
 ```
 
