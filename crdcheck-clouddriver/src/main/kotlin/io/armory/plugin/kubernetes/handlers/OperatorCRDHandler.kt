@@ -19,7 +19,7 @@ package io.armory.plugin.kubernetes.handlers
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.convertValue
 import com.netflix.spinnaker.clouddriver.kubernetes.caching.agent.CustomKubernetesCachingAgentFactory
-import com.netflix.spinnaker.clouddriver.kubernetes.caching.agent.KubernetesV2CachingAgentFactory
+import com.netflix.spinnaker.clouddriver.kubernetes.caching.agent.KubernetesCachingAgentFactory
 import com.netflix.spinnaker.clouddriver.kubernetes.description.SpinnakerKind
 import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.KubernetesApiGroup
 import com.netflix.spinnaker.clouddriver.kubernetes.op.handler.KubernetesHandler
@@ -70,8 +70,8 @@ class OperatorCRDHandler(): KubernetesHandler() {
         return DeployPriority.LOWEST_PRIORITY.value
     }
 
-    override fun cachingAgentFactory(): KubernetesV2CachingAgentFactory {
-        return KubernetesV2CachingAgentFactory { creds, mapper, registry, agentIndex, agentCount, agentInterval ->
+    override fun cachingAgentFactory(): KubernetesCachingAgentFactory {
+        return KubernetesCachingAgentFactory { creds, mapper, registry, agentIndex, agentCount, agentInterval ->
             CustomKubernetesCachingAgentFactory.create(kind(), creds, mapper, registry, agentIndex, agentCount, agentInterval)
         }
     }

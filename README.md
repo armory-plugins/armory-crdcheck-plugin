@@ -1,6 +1,6 @@
-![CI](https://github.com/spinnaker-plugin-examples/pf4jStagePlugin/workflows/CI/badge.svg)
-![Latest Kork](https://github.com/spinnaker-plugin-examples/pf4jStagePlugin/workflows/Latest%20Kork/badge.svg?branch=master)
-![Latest Orca](https://github.com/spinnaker-plugin-examples/pf4jStagePlugin/workflows/Latest%20Orca/badge.svg?branch=master)
+![CI](https://github.com/armory-plugins/armory-crdcheck-plugin/workflows/CI/badge.svg)
+![Latest Kork](https://github.com/armory-plugins/armory-crdcheck-plugin/workflows/Latest%20Kork/badge.svg?branch=master)
+![Latest Orca](https://github.com/armory-plugins/armory-crdcheck-plugin/workflows/Latest%20Clouddriver/badge.svg?branch=master)
 
 This plugin helps to determinate if a CRD is stable or not.
 
@@ -24,7 +24,6 @@ spinnaker:
       Armory.CRDCheck:
         enabled: true
         version: 0.1.3
-        extensions: {}
 ```
 
 Or use the [examplePluginRepository](https://github.com/spinnaker-plugin-examples/examplePluginRepository) to avoid copying the plugin `.zip` artifact.
