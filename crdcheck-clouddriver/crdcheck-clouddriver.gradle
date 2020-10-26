@@ -2,6 +2,9 @@ buildscript {
     repositories {
         mavenCentral()
     }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
 }
 
 apply plugin: "io.spinnaker.plugin.service-extension"
@@ -16,6 +19,8 @@ repositories {
     mavenCentral()
     jcenter()
     maven { url "http://dl.bintray.com/spinnaker/spinnaker/" }
+    // Used for testing against the Google product releases.
+    maven { url "https://spinnaker-releases.bintray.com/jars" }
 }
 
 spinnakerPlugin {
