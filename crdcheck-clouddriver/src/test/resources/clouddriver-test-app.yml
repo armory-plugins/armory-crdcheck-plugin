@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: clouddriver
+
+services:
+  fiat:
+    enabled: false
+    baseUrl: http://localhost:7003
+  front50:
+    enabled: true
+    baseUrl: http://localhost:8080
+
+redis:
+  enabled: false
+
+spinnaker:
+  extensibility:
+    plugins-root-path: build/plugins
+    plugins:
+      Armory.CRDCheck:
+        enabled: true
