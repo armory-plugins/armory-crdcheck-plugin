@@ -1,7 +1,7 @@
 package io.armory.plugin.kubernetes.handlers
 
 import com.netflix.spinnaker.clouddriver.Main
-import com.netflix.spinnaker.clouddriver.kubernetes.op.handler.KubernetesHandler
+import com.netflix.spinnaker.clouddriver.kubernetes.v2.op.handler.KubernetesHandler
 import com.netflix.spinnaker.kork.plugins.internal.PluginJar
 import io.armory.plugin.kubernetes.CRDCheckPlugin
 import org.springframework.beans.factory.annotation.Autowired
