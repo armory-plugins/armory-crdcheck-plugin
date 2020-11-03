@@ -24,6 +24,7 @@ import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.Kuberne
 import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.KubernetesManifest
 import com.netflix.spinnaker.clouddriver.kubernetes.model.Manifest
 import com.netflix.spinnaker.clouddriver.kubernetes.security.KubernetesNamedAccountCredentials
+import com.netflix.spinnaker.clouddriver.kubernetes.security.KubernetesV2Credentials
 import dev.minutest.junit.JUnit5Minutests
 import dev.minutest.rootContext
 import io.mockk.mockk
@@ -128,7 +129,7 @@ class OperatorCRDHandlerTest: JUnit5Minutests {
 
     private class Fixture {
         val subject = OperatorCRDHandler()
-        val creds: KubernetesNamedAccountCredentials = mockk(relaxed = true)
+        val creds: KubernetesNamedAccountCredentials<KubernetesV2Credentials> = mockk(relaxed = true)
         val mapper: ObjectMapper = mockk(relaxed = true)
         val registry: Registry = mockk(relaxed = true)
     }

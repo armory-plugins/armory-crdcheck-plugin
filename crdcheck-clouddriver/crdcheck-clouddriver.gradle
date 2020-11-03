@@ -16,6 +16,8 @@ repositories {
     mavenCentral()
     jcenter()
     maven { url "http://dl.bintray.com/spinnaker/spinnaker/" }
+    // Used for testing against the Google product releases.
+    maven { url "https://spinnaker-releases.bintray.com/jars" }
 }
 
 spinnakerPlugin {
@@ -31,7 +33,6 @@ dependencies {
     compileOnly(group: "com.netflix.spinnaker.clouddriver", name: "clouddriver-core", version: "${clouddriverVersion}")
     compileOnly(group: "com.netflix.spinnaker.clouddriver", name: "cats-core", version: "${clouddriverVersion}")
     compileOnly(group: "com.netflix.spinnaker.clouddriver", name: "clouddriver-kubernetes", version: "${clouddriverVersion}")
-    compileOnly(group: "com.netflix.spinnaker.clouddriver", name: "clouddriver-api", version: "${clouddriverVersion}")
     compileOnly(group: "com.netflix.spectator", name: "spectator-api", version: "0.75.0")
     compileOnly(group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: '2.9.8')
 
@@ -40,7 +41,6 @@ dependencies {
     testImplementation(group: "com.netflix.spinnaker.clouddriver", name: "clouddriver-web")
     testImplementation(group: "com.netflix.spinnaker.clouddriver", name: "clouddriver-kubernetes")
     testImplementation(group: "com.netflix.spinnaker.clouddriver", name: "clouddriver-security")
-    testImplementation(group: "com.netflix.spinnaker.clouddriver", name: "clouddriver-api")
     testImplementation(group: "com.netflix.spinnaker.kork", name: "kork-plugins")
     testImplementation(group: "com.netflix.spinnaker.kork", name: "kork-plugins-tck")
     testImplementation(group: "com.netflix.spectator", name: "spectator-api", version: "0.75.0")
