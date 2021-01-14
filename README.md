@@ -1,6 +1,4 @@
 ![CI](https://github.com/armory-plugins/armory-crdcheck-plugin/workflows/CI/badge.svg)
-![Latest Kork](https://github.com/armory-plugins/armory-crdcheck-plugin/workflows/Latest%20Kork/badge.svg?branch=master)
-![Latest Orca](https://github.com/armory-plugins/armory-crdcheck-plugin/workflows/Latest%20Clouddriver/badge.svg?branch=master)
 
 This plugin helps to determinate if a CRD is stable or not.
 
