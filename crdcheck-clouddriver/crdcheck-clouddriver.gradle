@@ -40,7 +40,7 @@ dependencies {
     compileOnly(group: "com.netflix.spectator", name: "spectator-api", version: "0.75.0")
     compileOnly(group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: '2.9.8')
 
-    testImplementation(platform(group: "com.netflix.spinnaker.clouddriver", name: "clouddriver-bom", version: "${clouddriverVersion}"))
+    testImplementation(enforcedPlatform(group: "com.netflix.spinnaker.clouddriver", name: "clouddriver-bom", version: "${clouddriverVersion}"))
     testImplementation(group: "com.netflix.spinnaker.clouddriver", name: "clouddriver-core")
     testImplementation(group: "com.netflix.spinnaker.clouddriver", name: "clouddriver-web")
     testImplementation(group: "com.netflix.spinnaker.clouddriver", name: "clouddriver-kubernetes")
