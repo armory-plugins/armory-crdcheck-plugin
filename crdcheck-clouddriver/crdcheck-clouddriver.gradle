@@ -13,14 +13,17 @@ apply plugin: "kotlin"
 apply plugin: "kotlin-kapt"
 
 sourceCompatibility = 1.8
-targetCompatibility = 1.8
+targetCompatibility = 11
 
 repositories {
     mavenCentral()
-    jcenter()
-    maven { url "https://spinnaker-releases.bintray.com/jars" }
-    // Used for testing against the Google product releases.
-    maven { url "https://spinnaker-releases.bintray.com/jars" }
+    maven {
+        url "https://armory.jfrog.io/artifactory/gradle-dev"
+        credentials {
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
+    }
 }
 
 spinnakerPlugin {
