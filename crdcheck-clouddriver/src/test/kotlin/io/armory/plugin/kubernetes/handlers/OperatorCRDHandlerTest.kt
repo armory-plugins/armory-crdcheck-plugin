@@ -26,7 +26,6 @@ import com.netflix.spinnaker.clouddriver.kubernetes.model.Manifest
 import com.netflix.spinnaker.clouddriver.kubernetes.security.KubernetesNamedAccountCredentials
 import dev.minutest.junit.JUnit5Minutests
 import dev.minutest.rootContext
-import dev.minutest.test
 import io.mockk.mockk
 import strikt.api.expectCatching
 import strikt.api.expectThat

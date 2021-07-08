@@ -12,8 +12,14 @@ apply plugin: "maven-publish"
 apply plugin: "kotlin"
 apply plugin: "kotlin-kapt"
 
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 targetCompatibility = 11
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
 
 repositories {
     mavenCentral()
@@ -35,18 +41,23 @@ spinnakerPlugin {
 dependencies {
     compileOnly(group: "org.jetbrains.kotlin", name: "kotlin-stdlib-jdk8", version: "$kotlinVersion")
     compileOnly(group: "org.springframework", name: "spring-context", version: "5.2.1.RELEASE")
-    compileOnly(group: "io.spinnaker.kork", name: "kork-plugins", version: "${korkVersion}")
-    compileOnly(group: 'io.spinnaker.kork', name: 'kork-plugins-spring-api', version: "${korkVersion}")
+    implementation platform("io.spinnaker.kork:kork-bom:$korkVersion")
+    compileOnly(group: "io.spinnaker.kork", name: "kork-plugins")
+    compileOnly(group: 'io.spinnaker.kork', name: 'kork-plugins-spring-api')
 
-    compileOnly(enforcedPlatform(group: "io.spinnaker.clouddriver", name: "clouddriver-bom", version: "${clouddriverVersion}"))
+    compileOnly(enforcedPlatform(group: "io.spinnaker.clouddriver", name: "clouddriver-bom", version: "${clouddriverVersion}")) {
+        exclude group: 'io.spinnaker.kork', module: 'kork-bom'
+    }
     compileOnly(group: "io.spinnaker.clouddriver", name: "clouddriver-core")
     compileOnly(group: "io.spinnaker.clouddriver", name: "cats-core")
     compileOnly(group: "io.spinnaker.clouddriver", name: "clouddriver-kubernetes")
     compileOnly(group: "io.spinnaker.clouddriver", name: "clouddriver-api")
     compileOnly(group: "com.netflix.spectator", name: "spectator-api", version: "0.75.0")
-    compileOnly(group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin')
+    compileOnly(group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: "2.12.1")
 
-    testImplementation(platform(group: "io.spinnaker.clouddriver", name: "clouddriver-bom", version: "${clouddriverVersion}"))
+    testImplementation(platform(group: "io.spinnaker.clouddriver", name: "clouddriver-bom", version: "${clouddriverVersion}")) {
+        exclude group: 'io.spinnaker.kork', module: 'kork-bom'
+    }
     testImplementation(group: "io.spinnaker.clouddriver", name: "clouddriver-core")
     testImplementation(group: "io.spinnaker.clouddriver", name: "clouddriver-web")
     testImplementation(group: "io.spinnaker.clouddriver", name: "clouddriver-kubernetes")
@@ -54,27 +65,12 @@ dependencies {
     testImplementation(group: "io.spinnaker.clouddriver", name: "clouddriver-api")
     testImplementation(group: "io.spinnaker.kork", name: "kork-plugins")
     testImplementation(group: "io.spinnaker.kork", name: "kork-plugins-tck")
-    testImplementation(group: "com.netflix.spectator", name: "spectator-api", version: "0.75.0")
+    testImplementation(group: "com.netflix.spectator", name: "spectator-api",)
     testImplementation(group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin')
     testImplementation(group: "org.springframework.boot", name: "spring-boot-starter-test")
-
-   // testImplementation(group: "org.junit.jupiter", name: "junit-jupiter-api", version: "5.3.1")
-    testImplementation(group: "io.strikt", name: "strikt-core", version: "0.31.0")
-    testImplementation(group: "io.mockk", name: "mockk", version: "1.10.0")
-
-    testImplementation "org.junit.jupiter:junit-jupiter-api:5.3.2"
-    testImplementation "dev.minutest:minutest:+"
-    testRuntime "org.junit.jupiter:junit-jupiter-engine:5.3.2"
-    testRuntime "org.junit.platform:junit-platform-launcher:1.3.2"
-
-   // testRuntime(group: "org.junit.jupiter", name: "junit-jupiter-engine", version: "5.3.2")
-   // testRuntime(group: "org.junit.platform", name: "junit-platform-launcher", version: "1.3.2")
-}
-
-compileTestKotlin {
-    kotlinOptions {
-        languageVersion = "1.3"
-        jvmTarget = "11"
+    //this override is needed because a package of clouddriver pulls the 4.13.1 junit that cause issues
+    testImplementation(group: "junit", name: "junit", version: "4.13") {
+        force = true
     }
 }
 
