@@ -13,14 +13,26 @@ apply plugin: "kotlin"
 apply plugin: "kotlin-kapt"
 
 sourceCompatibility = 1.8
-targetCompatibility = 1.8
+targetCompatibility = 11
 
 repositories {
     mavenCentral()
     jcenter()
-    maven { url "https://spinnaker-releases.bintray.com/jars" }
-    // Used for testing against the Google product releases.
-    maven { url "https://spinnaker-releases.bintray.com/jars" }
+    maven {
+        url 'https://armory.jfrog.io/armory/gradle-dev-local/'
+        credentials {
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
+    }
+
+    maven {
+        url 'https://armory.jfrog.io/artifactory/spinnaker/'
+        credentials {
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
+    }
 }
 
 spinnakerPlugin {
@@ -30,28 +42,30 @@ spinnakerPlugin {
 
 dependencies {
     compileOnly(group: "org.jetbrains.kotlin", name: "kotlin-stdlib-jdk8", version: "$kotlinVersion")
+    compileOnly(platform(group: "io.spinnaker.clouddriver", name: "clouddriver-bom", version: "${clouddriverVersion}"))
+    compileOnly(group: "io.spinnaker.clouddriver", name: "clouddriver-core")
+    compileOnly(group: "io.spinnaker.clouddriver", name: "cats-core")
+    compileOnly(group: "io.spinnaker.clouddriver", name: "clouddriver-kubernetes")
+    compileOnly(group: "io.spinnaker.clouddriver", name: "clouddriver-api")
+    compileOnly(enforcedPlatform(group: "io.spinnaker.kork", name: "kork-bom", version: "${korkVersion}"))
+    compileOnly(group: "io.spinnaker.kork", name: "kork-plugins")
+    compileOnly(group: 'io.spinnaker.kork', name: 'kork-plugins-spring-api')
     compileOnly(group: "org.springframework", name: "spring-context", version: "5.2.1.RELEASE")
-    compileOnly(group: "io.spinnaker.kork", name: "kork-plugins", version: "${korkVersion}")
-    compileOnly(group: 'io.spinnaker.kork', name: 'kork-plugins-spring-api', version: "${korkVersion}")
-    compileOnly(group: "io.spinnaker.clouddriver", name: "clouddriver-core", version: "${clouddriverVersion}")
-    compileOnly(group: "io.spinnaker.clouddriver", name: "cats-core", version: "${clouddriverVersion}")
-    compileOnly(group: "io.spinnaker.clouddriver", name: "clouddriver-kubernetes", version: "${clouddriverVersion}")
-    compileOnly(group: "io.spinnaker.clouddriver", name: "clouddriver-api", version: "${clouddriverVersion}")
     compileOnly(group: "com.netflix.spectator", name: "spectator-api", version: "0.75.0")
     compileOnly(group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: '2.9.8')
 
-    testImplementation(enforcedPlatform(group: "io.spinnaker.clouddriver", name: "clouddriver-bom", version: "${clouddriverVersion}"))
+    testImplementation(platform(group: "io.spinnaker.clouddriver", name: "clouddriver-bom", version: "${clouddriverVersion}"))
     testImplementation(group: "io.spinnaker.clouddriver", name: "clouddriver-core")
     testImplementation(group: "io.spinnaker.clouddriver", name: "clouddriver-web")
     testImplementation(group: "io.spinnaker.clouddriver", name: "clouddriver-kubernetes")
     testImplementation(group: "io.spinnaker.clouddriver", name: "clouddriver-security")
     testImplementation(group: "io.spinnaker.clouddriver", name: "clouddriver-api")
+    testImplementation(enforcedPlatform(group: "io.spinnaker.kork", name: "kork-bom", version: "${korkVersion}"))
     testImplementation(group: "io.spinnaker.kork", name: "kork-plugins")
     testImplementation(group: "io.spinnaker.kork", name: "kork-plugins-tck")
+    testImplementation(group: "org.springframework.boot", name: "spring-boot-starter-test")
     testImplementation(group: "com.netflix.spectator", name: "spectator-api", version: "0.75.0")
     testImplementation(group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: '2.9.8')
-    testImplementation(group: "org.springframework.boot", name: "spring-boot-starter-test")
-
     testImplementation(group: "org.junit.jupiter", name: "junit-jupiter-api", version: "5.3.1")
     testImplementation(group: "io.strikt", name: "strikt-core", version: "0.26.1")
     testImplementation(group: "dev.minutest", name: "minutest", version: "1.10.0")
