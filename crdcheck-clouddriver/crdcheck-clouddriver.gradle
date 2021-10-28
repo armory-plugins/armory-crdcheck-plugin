@@ -12,15 +12,24 @@ apply plugin: "maven-publish"
 apply plugin: "kotlin"
 apply plugin: "kotlin-kapt"
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
 repositories {
     mavenCentral()
     jcenter()
-    maven { url "https://spinnaker-releases.bintray.com/jars" }
-    // Used for testing against the Google product releases.
-    maven { url "https://spinnaker-releases.bintray.com/jars" }
+    maven {
+        url 'https://armory.jfrog.io/armory/gradle-dev-local/'
+        credentials {
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
+    }
+
+    maven {
+        url 'https://armory.jfrog.io/artifactory/spinnaker/'
+        credentials {
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
+    }
 }
 
 spinnakerPlugin {
@@ -30,13 +39,14 @@ spinnakerPlugin {
 
 dependencies {
     compileOnly(group: "org.jetbrains.kotlin", name: "kotlin-stdlib-jdk8", version: "$kotlinVersion")
-    compileOnly(group: "org.springframework", name: "spring-context", version: "5.2.1.RELEASE")
-    compileOnly(group: "io.spinnaker.kork", name: "kork-plugins", version: "${korkVersion}")
-    compileOnly(group: 'io.spinnaker.kork', name: 'kork-plugins-spring-api', version: "${korkVersion}")
-    compileOnly(group: "io.spinnaker.clouddriver", name: "clouddriver-core", version: "${clouddriverVersion}")
-    compileOnly(group: "io.spinnaker.clouddriver", name: "cats-core", version: "${clouddriverVersion}")
-    compileOnly(group: "io.spinnaker.clouddriver", name: "clouddriver-kubernetes", version: "${clouddriverVersion}")
-    compileOnly(group: "io.spinnaker.clouddriver", name: "clouddriver-api", version: "${clouddriverVersion}")
+    compileOnly(enforcedPlatform(group: "io.spinnaker.clouddriver", name: "clouddriver-bom", version: "${clouddriverVersion}"))
+    compileOnly(group: "org.springframework", name: "spring-context")
+    compileOnly(group: "io.spinnaker.kork", name: "kork-plugins")
+    compileOnly(group: 'io.spinnaker.kork', name: 'kork-plugins-spring-api')
+    compileOnly(group: "io.spinnaker.clouddriver", name: "clouddriver-core")
+    compileOnly(group: "io.spinnaker.clouddriver", name: "cats-core")
+    compileOnly(group: "io.spinnaker.clouddriver", name: "clouddriver-kubernetes")
+    compileOnly(group: "io.spinnaker.clouddriver", name: "clouddriver-api")
     compileOnly(group: "com.netflix.spectator", name: "spectator-api", version: "0.75.0")
     compileOnly(group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: '2.9.8')
 
