@@ -71,8 +71,8 @@ class OperatorCRDHandler(): KubernetesHandler() {
     }
 
     override fun cachingAgentFactory(): KubernetesCachingAgentFactory {
-        return KubernetesCachingAgentFactory { creds, mapper, registry, agentIndex, agentCount, agentInterval ->
-            CustomKubernetesCachingAgentFactory.create(kind(), creds, mapper, registry, agentIndex, agentCount, agentInterval)
+        return KubernetesCachingAgentFactory { creds, mapper, registry, agentIndex, agentCount, agentInterval, agentConfig, agentMap ->
+            CustomKubernetesCachingAgentFactory.create(kind(), creds, mapper, registry, agentIndex, agentCount, agentInterval, agentConfig, agentMap)
         }
     }
 

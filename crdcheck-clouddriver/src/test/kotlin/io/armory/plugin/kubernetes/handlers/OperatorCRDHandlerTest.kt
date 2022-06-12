@@ -18,6 +18,8 @@ package io.armory.plugin.kubernetes.handlers
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.netflix.spectator.api.Registry
+import com.netflix.spinnaker.clouddriver.kubernetes.config.KubernetesConfigurationProperties
+import com.netflix.spinnaker.clouddriver.kubernetes.description.KubernetesSpinnakerKindMap
 import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.KubernetesApiGroup
 import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.KubernetesApiVersion
 import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.KubernetesKind
@@ -121,7 +123,7 @@ class OperatorCRDHandlerTest: JUnit5Minutests {
         }
 
         test("builds a caching agent factory") {
-            expectCatching { subject.buildCachingAgent(creds, mapper, registry, 1, 1, 1L) }
+            expectCatching { subject.buildCachingAgent(creds, mapper, registry, 1, 1, 1L, config, kinds) }
                     .isSuccess()
         }
     }
@@ -131,6 +133,8 @@ class OperatorCRDHandlerTest: JUnit5Minutests {
         val creds: KubernetesNamedAccountCredentials = mockk(relaxed = true)
         val mapper: ObjectMapper = mockk(relaxed = true)
         val registry: Registry = mockk(relaxed = true)
+        val config: KubernetesConfigurationProperties = mockk(relaxed = true)
+        val kinds: KubernetesSpinnakerKindMap = mockk(relaxed = true)
     }
 
     private data class OperatorCRDStatus(
