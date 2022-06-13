@@ -9,6 +9,8 @@ This plugin helps to determinate if a CRD is stable or not.
 | 0.0.19  |  1.19.x, 1.20.x | 2.20.x
 | 0.1.3  |  1.21.x, 1.22.x | 2.21.x, 2.22.x
 | 0.2.0  | 1.23.x, 1.24.x, 1.25.x, 1.26.x, 1.27.x | 2.23.x, 2.24.x, 2.25.x, 2.26.x, 2.27.x
+| 0.3.0  | 1.28.x | 2.28.x
+
 
 # Usage
 
