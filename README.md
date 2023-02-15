@@ -1,16 +1,20 @@
 ![CI](https://github.com/armory-plugins/armory-crdcheck-plugin/workflows/CI/badge.svg)
 
-This plugin helps to determinate if a CRD is stable or not.
+This plugin helps to determinate if the Armory Spinnaker Operator CRD is stable or not.  It ONLY checks this CRD for stability.  This matches against
+``` 
+kind = "SpinnakerService"
+apiGroup = "spinnaker.armory.io"
+```
+resources for status checks.  
 
 # Version Compatibility
  
 | Plugin  | Spinnaker Platform | Armory Spinnaker Platform
 |:----------- | :--------- | :---------
-| 0.0.19  |  1.19.x, 1.20.x | 2.20.x
-| 0.1.3  |  1.21.x, 1.22.x | 2.21.x, 2.22.x
 | 0.2.0  | 1.23.x, 1.24.x, 1.25.x, 1.26.x, 1.27.x | 2.23.x, 2.24.x, 2.25.x, 2.26.x, 2.27.x
 | 0.3.0  | 1.28.x | 2.28.x
 
+No other supported versions.
 
 # Usage
 
@@ -24,7 +28,7 @@ spinnaker:
     plugins:
       Armory.CRDCheck:
         enabled: true
-        version: 0.2.0
+        version: 0.3.0
 ```
 
 Or use the [examplePluginRepository](https://github.com/spinnaker-plugin-examples/examplePluginRepository) to avoid copying the plugin `.zip` artifact.
