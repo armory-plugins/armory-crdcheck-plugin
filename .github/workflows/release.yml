@@ -15,19 +15,37 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v2
+
       - name: set up java
         uses: actions/setup-java@v1
         with:
           java-version: 11
+
       - name: run tests
         run: ./gradlew test
+
       - name: build
         run: ./gradlew releaseBundle
+
       - name: get project info
         id: get_project_info
         run: |
           echo ::set-output name=PROJECT::$(basename `pwd`)
+          echo ::set-output name=PROJECT_KEBAB::$(basename `pwd` | sed 's/\([a-z0-9]\)\([A-Z]\)/\1_\L\2/g')
           echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+          echo ::set-output name=REPO::${GITHUB_REPOSITORY}
+
+      - name: build docker image
+        run: |
+          docker build -t armory/${{ steps.get_project_info.outputs.PROJECT }}:${{ steps.get_project_info.outputs.VERSION }} -f build-tools/Dockerfile .
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_HUB_USER }} -p '${{ secrets.DOCKER_HUB_PASS }}'
+
+      - name: Publish Image to Docker Hub
+        run: |
+          docker push armory/${{ steps.get_project_info.outputs.PROJECT }}:${{ steps.get_project_info.outputs.VERSION }}
+
       - name: create release
         id: create_release
         uses: actions/create-release@v1
@@ -38,6 +56,7 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+
       - name: upload release asset
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
@@ -48,6 +67,18 @@ jobs:
           asset_path: ./build/distributions/${{ steps.get_project_info.outputs.PROJECT }}-${{ steps.get_project_info.outputs.VERSION }}.zip
           asset_name: ${{ steps.get_project_info.outputs.PROJECT }}-${{ steps.get_project_info.outputs.VERSION }}.zip
           asset_content_type: application/zip
+
       - name: add release to plugin repo
+        id: add-release
+        uses: armory-io/plugin-metadata-updater@master
+        env:
+          JAVA_HOME: ''
+          GITHUB_OAUTH: ${{ secrets.TOKEN }}
+        with:
+          metadata: build/distributions/plugin-info.json
+          binary_url: https://github.com/${{ steps.get_project_info.outputs.REPO }}/releases/download/${{ steps.get_project_info.outputs.VERSION }}/${{ steps.get_project_info.outputs.PROJECT }}-${{ steps.get_project_info.outputs.VERSION }}.zip
+          metadata_repo_url: https://github.com/armory-plugins/pluginRepository
+
+      - name: add release to global plugin repo
         run: |
-          curl -v -XPOST -u "${{ secrets.USERNAME }}:${{ secrets.TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/armory-plugins/armory-crdcheck-plugin-releases/dispatches --data "{\"event_type\": \"onPluginRelease\", \"client_payload\": {\"org\": \"armory-plugins\", \"repo\": \"${{ steps.get_project_info.outputs.PROJECT }}\", \"releaseRepo\": \"armory-crdcheck-plugin\", \"version\": \"${{ steps.get_project_info.outputs.VERSION }}\", \"artifactName\": \"${{ steps.get_project_info.outputs.PROJECT }}-${{ steps.get_project_info.outputs.VERSION }}.zip\", \"released\": $(cat build/distributions/plugin-info.json)}}"
+          curl -v -XPOST -u "${{ secrets.USERNAME }}:${{ secrets.TOKEN }}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/armory-plugins/pluginRepository/dispatches --data "{\"event_type\": \"onPluginRelease\", \"client_payload\": {\"org\": \"armory-plugins\", \"repo\": \"${{ steps.get_project_info.outputs.PROJECT }}\", \"releaseRepo\": \"armory-crdcheck-plugin\", \"version\": \"${{ steps.get_project_info.outputs.VERSION }}\", \"artifactName\": \"${{ steps.get_project_info.outputs.PROJECT }}-${{ steps.get_project_info.outputs.VERSION }}.zip\", \"released\": $(cat build/distributions/plugin-info.json)}}"
