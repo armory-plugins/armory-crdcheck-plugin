@@ -16,6 +16,7 @@
 
 package io.armory.plugin.kubernetes.handlers
 
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.convertValue
 import com.netflix.spinnaker.clouddriver.kubernetes.caching.agent.CustomKubernetesCachingAgentFactory
@@ -28,10 +29,12 @@ import com.netflix.spinnaker.clouddriver.kubernetes.description.manifest.Kuberne
 import com.netflix.spinnaker.clouddriver.kubernetes.model.Manifest
 import org.slf4j.LoggerFactory
 
-class OperatorCRDHandler(): KubernetesHandler() {
+class OperatorCRDHandler : KubernetesHandler() {
 
     private val logger = LoggerFactory.getLogger(OperatorCRDHandler::class.java)
-    private val mapper = jacksonObjectMapper()
+    private val mapper = jacksonObjectMapper().apply {
+        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+    }
     private val kind = "SpinnakerService"
     private val apiGroup = "spinnaker.armory.io"
 
@@ -71,8 +74,9 @@ class OperatorCRDHandler(): KubernetesHandler() {
     }
 
     override fun cachingAgentFactory(): KubernetesCachingAgentFactory {
-        return KubernetesCachingAgentFactory { creds, mapper, registry, agentIndex, agentCount, agentInterval ->
-            CustomKubernetesCachingAgentFactory.create(kind(), creds, mapper, registry, agentIndex, agentCount, agentInterval)
+        return KubernetesCachingAgentFactory { creds, mapper, registry, agentIndex, agentCount, agentInterval,
+                                               configurationProperties, kubernetesSpinnakerKindMap, front50ApplicationLoader ->
+            CustomKubernetesCachingAgentFactory.create(kind(), creds, mapper, registry, agentIndex, agentCount, agentInterval, configurationProperties, kubernetesSpinnakerKindMap, front50ApplicationLoader)
         }
     }
 
