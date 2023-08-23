@@ -9,10 +9,12 @@ resources for status checks.
 
 # Version Compatibility
  
-| Plugin  | Spinnaker Platform | Armory Spinnaker Platform
-|:----------- | :--------- | :---------
-| 0.2.0  | 1.23.x, 1.24.x, 1.25.x, 1.26.x, 1.27.x | 2.23.x, 2.24.x, 2.25.x, 2.26.x, 2.27.x
-| 0.3.0  | 1.28.x | 2.28.x
+| Plugin | Spinnaker Platform                     | Armory Spinnaker Platform              |
+|:-------|:---------------------------------------|:---------------------------------------|
+| 0.2.0  | 1.23.x, 1.24.x, 1.25.x, 1.26.x, 1.27.x | 2.23.x, 2.24.x, 2.25.x, 2.26.x, 2.27.x |
+| 0.3.0  | 1.28.x                                 | 2.28.x                                 |
+| 0.4.0  | 1.30.x                                 | 2.30.x                                 |
+
 
 No other supported versions.
 
@@ -28,7 +30,7 @@ spinnaker:
     plugins:
       Armory.CRDCheck:
         enabled: true
-        version: 0.3.0
+        version: 0.4.0
 ```
 
 Or use the [examplePluginRepository](https://github.com/spinnaker-plugin-examples/examplePluginRepository) to avoid copying the plugin `.zip` artifact.
